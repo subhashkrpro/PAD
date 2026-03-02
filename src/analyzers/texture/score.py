@@ -1,4 +1,4 @@
-from config.texture_config import (
+from src.config.texture_config import (
     CONTRAST_THRESHOLDS, CONTRAST_SCORES,
     HOMOGENEITY_THRESHOLDS, HOMOGENEITY_SCORES,
     ENERGY_THRESHOLDS, ENERGY_SCORES,

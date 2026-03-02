@@ -1,4 +1,4 @@
-import config.fft_analyzer_config as config
+import src.config.fft_analyzer_config as config
 
 def _score_by_thresholds(value, thresholds, scores, reverse=False):
     """

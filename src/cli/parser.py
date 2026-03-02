@@ -1,5 +1,5 @@
 import argparse
-from config import cli_config
+from src.config import cli_config
 
 def create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(

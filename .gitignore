@@ -1,2 +1,11 @@
 .venv
 .env
+__pycache__/
+pad.egg-info/
+dist/
+build/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.tmp

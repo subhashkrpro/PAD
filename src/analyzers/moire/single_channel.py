@@ -1,5 +1,5 @@
 import numpy as np
-from config.moire_config import BANDPASS_LOW, BANDPASS_HIGH
+from src.config.moire_config import BANDPASS_LOW, BANDPASS_HIGH
 
 def analyze_single_channel(gray: np.ndarray, bandpass_low=BANDPASS_LOW, bandpass_high=BANDPASS_HIGH) -> float:
     """

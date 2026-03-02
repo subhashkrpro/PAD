@@ -12,10 +12,10 @@ Usage:
 import os
 import sys
 
-from detector.main_detector import PhotoAuthenticityDetector
+from src.detector.main_detector import PhotoAuthenticityDetector
 from .parser import create_parser
 from .analyze import analyze_single
-from config import cli_config
+from src.config import cli_config
 
 
 def main():

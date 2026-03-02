@@ -22,7 +22,7 @@ from .glcm import compute_glcm_features
 from .lbp import compute_lbp_uniformity
 from .gabor import compute_gabor_features
 from .score import compute_score
-from config import texture_config
+from src.config import texture_config
 
 
 class TextureAnalyzer:

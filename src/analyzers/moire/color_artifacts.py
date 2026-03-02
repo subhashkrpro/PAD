@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from config.moire_config import COLOR_DIFF_THRESHOLD
+from src.config.moire_config import COLOR_DIFF_THRESHOLD
 
 def detect_color_artifacts(image: np.ndarray, color_diff_threshold=COLOR_DIFF_THRESHOLD) -> float:
     """

@@ -13,13 +13,13 @@ Uses a weighted scoring system for the final decision:
 
 import cv2
 import numpy as np
-from analyzers import (
+from src.analyzers import (
     FFTAnalyzer,
     MoireDetector,
     LaplacianVarianceAnalyzer,
     TextureAnalyzer,
 )
-from config import detector_config
+from src.config import detector_config
 from .result import DetectionResult
 
 class PhotoAuthenticityDetector:

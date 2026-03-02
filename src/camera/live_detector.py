@@ -13,8 +13,8 @@ import time
 import threading
 from dataclasses import dataclass
 
-from detector.result import DetectionResult
-from detector.main_detector import PhotoAuthenticityDetector
+from src.detector.result import DetectionResult
+from src.detector.main_detector import PhotoAuthenticityDetector
 
 from .capture import CameraCapture, CameraConfig
 from .ui import OverlayUI

@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
-from analyzers.fft.fft_analyzer import FFTResult
-from analyzers.moire.moire_detector import MoireResult
-from analyzers.laplacian.laplacian_result import LaplacianResult
-from analyzers.texture.texture_analyzer import TextureResult
+from src.analyzers.fft.fft_analyzer import FFTResult
+from src.analyzers.moire.moire_detector import MoireResult
+from src.analyzers.laplacian.laplacian_result import LaplacianResult
+from src.analyzers.texture.texture_analyzer import TextureResult
 
 @dataclass
 class DetectionResult:

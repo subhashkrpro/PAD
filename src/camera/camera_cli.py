@@ -12,7 +12,7 @@ Usage:
 
 import argparse
 import sys
-from detector.main_detector import PhotoAuthenticityDetector
+from src.detector.main_detector import PhotoAuthenticityDetector
 from .capture import CameraCapture, CameraConfig
 from .live_detector import LiveDetector, LiveConfig
 

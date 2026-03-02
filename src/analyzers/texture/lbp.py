@@ -1,6 +1,6 @@
 import numpy as np
 from skimage.feature import local_binary_pattern
-from config.texture_config import LBP_RADIUS, LBP_N_POINTS
+from src.config.texture_config import LBP_RADIUS, LBP_N_POINTS
 
 def compute_lbp_uniformity(gray: np.ndarray) -> float:
     """

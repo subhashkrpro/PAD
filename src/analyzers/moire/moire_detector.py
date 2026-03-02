@@ -17,7 +17,7 @@ from .color_artifacts import detect_color_artifacts
 from .periodic import detect_periodic_patterns
 from .single_channel import analyze_single_channel
 from .score import compute_score
-from config import moire_config
+from src.config import moire_config
 
 
 class MoireDetector:

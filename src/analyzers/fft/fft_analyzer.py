@@ -13,7 +13,7 @@ In recaptured images:
 
 import cv2
 import numpy as np
-from config import fft_analyzer_config as config
+from src.config import fft_analyzer_config as config
 from .fft_result import FFTResult
 from .fft_utils import compute_high_freq_ratio
 from .fft_features import detect_periodic_peaks, compute_gradient_kurtosis, compute_spectral_slope

@@ -1,4 +1,4 @@
-from config.laplacian_config import LaplacianConfig
+from src.config.laplacian_config import LaplacianConfig
 from .laplacian_result import LaplacianResult
 from .laplacian_utils import LaplacianUtils
 import numpy as np

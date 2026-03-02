@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from config.texture_config import GABOR_FREQUENCIES, GABOR_ORIENTATIONS
+from src.config.texture_config import GABOR_FREQUENCIES, GABOR_ORIENTATIONS
 
 def compute_gabor_features(gray: np.ndarray) -> float:
     """

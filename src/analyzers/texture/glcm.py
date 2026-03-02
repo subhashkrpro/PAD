@@ -1,6 +1,6 @@
 import numpy as np
 from skimage.feature import graycomatrix, graycoprops
-from config.texture_config import GLCM_DISTANCES, GLCM_ANGLES, GLCM_GRAY_DIV, GLCM_LEVELS
+from src.config.texture_config import GLCM_DISTANCES, GLCM_ANGLES, GLCM_GRAY_DIV, GLCM_LEVELS
 
 def compute_glcm_features(gray: np.ndarray) -> tuple[float, float, float, float]:
     """

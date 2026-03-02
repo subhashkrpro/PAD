@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-import config.fft_analyzer_config as config
+import src.config.fft_analyzer_config as config
 from .fft_utils import count_peaks
 
 def detect_periodic_peaks(magnitude_log: np.ndarray, rows: int, cols: int, peak_threshold: float) -> int:

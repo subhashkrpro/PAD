@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-import config.fft_analyzer_config as config
+import src.config.fft_analyzer_config as config
 
 def compute_high_freq_ratio(magnitude_log: np.ndarray, rows: int, cols: int, high_freq_cutoff: float) -> float:
     """

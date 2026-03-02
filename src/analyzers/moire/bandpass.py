@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from config.moire_config import BANDPASS_LOW, BANDPASS_HIGH
+from src.config.moire_config import BANDPASS_LOW, BANDPASS_HIGH
 
 def detect_moire_bandpass(image: np.ndarray, bandpass_low=BANDPASS_LOW, bandpass_high=BANDPASS_HIGH) -> float:
     """

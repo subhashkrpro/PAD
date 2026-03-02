@@ -1,6 +1,6 @@
 import os
 import time
-from detector.main_detector import PhotoAuthenticityDetector
+from src.detector.main_detector import PhotoAuthenticityDetector
 
 def analyze_single(detector: PhotoAuthenticityDetector, image_path: str, verbose: bool, as_json: bool) -> bool:
     # Print analysis start information
