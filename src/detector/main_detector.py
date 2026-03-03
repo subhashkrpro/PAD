@@ -13,7 +13,7 @@ Uses a weighted scoring system for the final decision:
 
 import cv2
 import numpy as np
-from src.analyzers import (
+from analyzers import (
     FFTAnalyzer,
     MoireDetector,
     LaplacianVarianceAnalyzer,
@@ -29,9 +29,16 @@ class PhotoAuthenticityDetector:
         """
         self.weights = weights or detector_config.DEFAULT_WEIGHTS.copy()
         self.threshold = threshold
+        
+        # Validate that all required keys are present
+        required_keys = {"fft", "moire", "laplacian", "texture"}
+        missing_keys = required_keys - set(self.weights.keys())
+        if missing_keys:
+            raise ValueError(f"Missing weight keys: {missing_keys}")
+
         total = sum(self.weights.values())
         # Ensure weights sum to 1.0
-        if abs(total - 1.0) > 0.01:
+        if abs(total - 1.0) > detector_config.WEIGHTS_TOLERANCE:
             raise ValueError(f"Weights must sum to 1.0, got {total:.3f}")
         # Initialize all analyzers
         self.fft_analyzer = FFTAnalyzer()
@@ -80,9 +87,9 @@ class PhotoAuthenticityDetector:
         # Decide verdict and confidence
         verdict = "RECAPTURED" if final_score >= self.threshold else "REAL"
         if final_score >= self.threshold:
-            confidence = min((final_score - self.threshold) / (1.0 - self.threshold) * 0.5 + 0.5, 1.0)
+            confidence = min((final_score - self.threshold) / (1.0 - self.threshold) * detector_config.CONFIDENCE_SCALE + detector_config.CONFIDENCE_BASE, 1.0)
         else:
-            confidence = min((self.threshold - final_score) / self.threshold * 0.5 + 0.5, 1.0)
+            confidence = min((self.threshold - final_score) / self.threshold * detector_config.CONFIDENCE_SCALE + detector_config.CONFIDENCE_BASE, 1.0)
         # Return detailed result
         return DetectionResult(
             verdict=verdict,
