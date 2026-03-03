@@ -19,8 +19,12 @@ class LaplacianVarianceAnalyzer:
         else:
             gray = image.copy()
         variance = LaplacianUtils.compute_laplacian_variance(gray)
-        mean_gradient = LaplacianUtils.compute_mean_gradient(gray)
-        edge_density = LaplacianUtils.compute_edge_density(gray)
+        mean_gradient = LaplacianUtils.compute_mean_gradient(gray, ksize=self.config.sobel_ksize)
+        edge_density = LaplacianUtils.compute_edge_density(
+            gray, 
+            lower_factor=self.config.canny_lower_factor, 
+            upper_factor=self.config.canny_upper_factor
+        )
         local_variance_std = LaplacianUtils.compute_local_variance_consistency(gray, self.config.block_size)
         score = self._compute_score(variance, mean_gradient, edge_density, local_variance_std)
         details = (

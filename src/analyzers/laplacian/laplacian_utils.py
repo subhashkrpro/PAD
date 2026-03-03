@@ -14,32 +14,34 @@ class LaplacianUtils:
         laplacian = cv2.Laplacian(gray, cv2.CV_64F)
         return float(laplacian.var())
 
-    @staticmethod
-    def compute_mean_gradient(gray: np.ndarray) -> float:
+    def compute_mean_gradient(gray: np.ndarray, ksize: int = 3) -> float:
         """
         Computes the mean gradient magnitude of a grayscale image.
         Args:
             gray: Grayscale image array.
+            ksize: Sobel kernel size.
         Returns:
             Mean gradient magnitude.
         """
-        grad_x = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
-        grad_y = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
+        grad_x = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=ksize)
+        grad_y = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=ksize)
         magnitude = np.sqrt(grad_x ** 2 + grad_y ** 2)
         return float(np.mean(magnitude))
 
     @staticmethod
-    def compute_edge_density(gray: np.ndarray) -> float:
+    def compute_edge_density(gray: np.ndarray, lower_factor: float = 0.67, upper_factor: float = 1.33) -> float:
         """
         Computes the edge density of a grayscale image using the Canny edge detector.
         Args:
             gray: Grayscale image array.
+            lower_factor: Factor for lower threshold.
+            upper_factor: Factor for upper threshold.
         Returns:
             Ratio of edge pixels to total pixels.
         """
         median_val = np.median(gray)
-        lower = int(max(0, 0.67 * median_val))
-        upper = int(min(255, 1.33 * median_val))
+        lower = int(max(0, lower_factor * median_val))
+        upper = int(min(255, upper_factor * median_val))
         edges = cv2.Canny(gray, lower, upper)
         total_pixels = gray.shape[0] * gray.shape[1]
         edge_pixels = np.sum(edges > 0)
