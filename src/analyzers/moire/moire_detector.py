@@ -39,7 +39,7 @@ class MoireDetector:
         if len(image.shape) != 3:
             moire_intensity = analyze_single_channel(image)
             return MoireResult(
-                score=min(moire_intensity * 0.5, 1.0),
+                score=min(moire_intensity * moire_config.GRAYSCALE_FACTOR, 1.0),
                 moire_intensity=moire_intensity,
                 color_artifact_score=0.0,
                 periodic_strength=moire_intensity,

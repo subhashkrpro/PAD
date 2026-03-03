@@ -11,6 +11,9 @@ def detect_color_artifacts(image: np.ndarray, color_diff_threshold=COLOR_DIFF_TH
     Returns:
         Normalized value (0-1) indicating the presence of color artifacts.
     """
+    if len(image.shape) < 3 or image.shape[2] < 3:
+        # Grayscale or single-channel image: no color artifacts possible
+        return 0.0
     b, g, r = cv2.split(image.astype(np.float32))
     diff_rg = np.abs(r - g)
     diff_rb = np.abs(r - b)

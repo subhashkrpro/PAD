@@ -12,7 +12,13 @@ def detect_moire_bandpass(image: np.ndarray, bandpass_low=BANDPASS_LOW, bandpass
     Returns:
         Ratio of bandpass-filtered energy to total energy in the frequency domain.
     """
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY).astype(np.float32)
+    if len(image.shape) == 3:
+        if image.shape[2] == 3:
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY).astype(np.float32)
+        else:
+            gray = image[:, :, 0].astype(np.float32)
+    else:
+        gray = image.astype(np.float32)
     rows, cols = gray.shape
     dft = np.fft.fft2(gray)
     dft_shift = np.fft.fftshift(dft)
