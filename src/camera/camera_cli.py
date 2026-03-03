@@ -12,9 +12,10 @@ Usage:
 
 import argparse
 import sys
-from src.detector.main_detector import PhotoAuthenticityDetector
+from detector.main_detector import PhotoAuthenticityDetector
 from .capture import CameraCapture, CameraConfig
 from .live_detector import LiveDetector, LiveConfig
+from src.config import camera_config
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -44,20 +45,20 @@ Examples:
 
     parser.add_argument(
         "-d", "--device",
-        type=int, default=0,
-        help="Camera device index (default: 0)",
+        type=int, default=camera_config.DEFAULT_DEVICE_ID,
+        help=f"Camera device index (default: {camera_config.DEFAULT_DEVICE_ID})",
     )
 
     parser.add_argument(
         "-W", "--width",
-        type=int, default=1280,
-        help="Camera frame width (default: 1280)",
+        type=int, default=camera_config.DEFAULT_WIDTH,
+        help=f"Camera frame width (default: {camera_config.DEFAULT_WIDTH})",
     )
 
     parser.add_argument(
         "-H", "--height",
-        type=int, default=720,
-        help="Camera frame height (default: 720)",
+        type=int, default=camera_config.DEFAULT_HEIGHT,
+        help=f"Camera frame height (default: {camera_config.DEFAULT_HEIGHT})",
     )
 
     parser.add_argument(
@@ -68,8 +69,8 @@ Examples:
 
     parser.add_argument(
         "--interval",
-        type=float, default=1.5,
-        help="Auto-detection interval in seconds (default: 1.5)",
+        type=float, default=camera_config.DEFAULT_AUTO_INTERVAL,
+        help=f"Auto-detection interval in seconds (default: {camera_config.DEFAULT_AUTO_INTERVAL})",
     )
 
     parser.add_argument(
@@ -136,14 +137,20 @@ def run_capture_mode(args):
 
     with CameraCapture(cam_config) as camera:
         if not camera.is_open:
-            print("[ERROR] Unable to open camera!")
+            print("\n" + "!" * 50)
+            print(f"  [ERROR] FAILED TO OPEN CAMERA (Device: {args.device})")
+            print("  Troubleshooting:")
+            print("  1. Check if the camera is physically connected.")
+            print("  2. Ensure no other application (Zoom, Teams, etc.) is using it.")
+            print("  3. Try a different device index: --device 1, --device 2, etc.")
+            print("!" * 50 + "\n")
             sys.exit(1)
 
         # Warm-up frames (allow camera to stabilize)
         print("  Camera warming up...")
-        for _ in range(15):
+        for _ in range(camera_config.WARMUP_FRAMES):
             camera.read_frame()
-            cv2.waitKey(50)
+            cv2.waitKey(camera_config.WARMUP_WAIT_MS)
 
         # Capture frame
         ret, frame = camera.read_frame()

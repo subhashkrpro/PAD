@@ -8,16 +8,17 @@ import cv2
 import os
 import time
 from dataclasses import dataclass
+from src.config import camera_config
 
 
 @dataclass
 class CameraConfig:
     """Camera settings."""
-    device_id: int = 0          # Camera index (0 = default)
-    width: int = 1280           # Frame width
-    height: int = 720           # Frame height
-    fps: int = 30               # Target FPS
-    save_dir: str = "captures"  # Photo save folder
+    device_id: int = camera_config.DEFAULT_DEVICE_ID
+    width: int = camera_config.DEFAULT_WIDTH
+    height: int = camera_config.DEFAULT_HEIGHT
+    fps: int = camera_config.DEFAULT_FPS
+    save_dir: str = camera_config.DEFAULT_SAVE_DIR
 
 
 class CameraCapture:

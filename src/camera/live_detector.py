@@ -12,9 +12,10 @@ import cv2
 import time
 import threading
 from dataclasses import dataclass
+from src.config import camera_config
 
-from src.detector.result import DetectionResult
-from src.detector.main_detector import PhotoAuthenticityDetector
+from detector.result import DetectionResult
+from detector.main_detector import PhotoAuthenticityDetector
 
 from .capture import CameraCapture, CameraConfig
 from .ui import OverlayUI
@@ -23,9 +24,9 @@ from .ui import OverlayUI
 @dataclass
 class LiveConfig:
     """Live detection settings."""
-    auto_interval: float = 0.8    # Interval (seconds) between analyses in auto mode
-    window_name: str = "Photo Authenticity Detector - Live"
-    downscale: float = 0.5        # Frame resize factor for analysis
+    auto_interval: float = camera_config.DEFAULT_AUTO_INTERVAL
+    window_name: str = camera_config.DEFAULT_WINDOW_NAME
+    downscale: float = camera_config.DEFAULT_DOWNSCALE
 
 
 class LiveDetector:
@@ -63,7 +64,13 @@ class LiveDetector:
     def run(self):
         """Main loop - open camera and start live detection."""
         if not self.camera.open():
-            print("[ERROR] Unable to open camera. Please check if the camera is connected.")
+            print("\n" + "!" * 50)
+            print(f"  [ERROR] FAILED TO OPEN CAMERA (Device: {self.cam_config.device_id})")
+            print("  Troubleshooting:")
+            print("  1. Is the camera connected?")
+            print("  2. Is it being used by another app?")
+            print("  3. Try another device ID (e.g., change DEFAULT_DEVICE_ID in config).")
+            print("!" * 50 + "\n")
             return
 
         print("\n" + "=" * 50)
@@ -116,16 +123,16 @@ class LiveDetector:
                     break
                 elif key == ord(' '):  # SPACE - manual capture and analyze
                     self._run_analysis_threaded(frame.copy())
-                    self._set_status("Analyzing captured frame...", (0, 220, 220))
+                    self._set_status("Analyzing captured frame...", camera_config.COLOR_YELLOW)
                 elif key == ord('a'):  # A - toggle auto
                     self._auto_mode = not self._auto_mode
                     mode_text = "ON" if self._auto_mode else "OFF"
-                    self._set_status(f"Auto-detect: {mode_text}", (0, 220, 220))
+                    self._set_status(f"Auto-detect: {mode_text}", camera_config.COLOR_YELLOW)
                     print(f"[AUTO] Auto-detection: {mode_text}")
                 elif key == ord('s'):  # S - save frame
                     path = self.camera.save_photo(frame)
                     if path:
-                        self._set_status(f"Saved: {path}", (0, 200, 0))
+                        self._set_status(f"Saved: {path}", camera_config.COLOR_GREEN)
 
         except KeyboardInterrupt:
             print("\n[STOPPED] Keyboard interrupt")
@@ -152,10 +159,10 @@ class LiveDetector:
                 self._last_result = result
 
                 icon = "REAL" if result.verdict == "REAL" else "RECAPTURED"
-                color = (0, 200, 0) if result.verdict == "REAL" else (0, 0, 220)
+                color = camera_config.COLOR_GREEN if result.verdict == "REAL" else camera_config.COLOR_RED
                 self._set_status(f"Result: {icon} ({result.confidence:.0%})", color)
             except Exception as e:
-                self._set_status(f"Error: {e}", (0, 0, 255))
+                self._set_status(f"Error: {e}", camera_config.COLOR_RED)
             finally:
                 self._analyzing = False
 
