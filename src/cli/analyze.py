@@ -44,7 +44,7 @@ def analyze_single(detector: PhotoAuthenticityDetector, image_path: str, verbose
         print(f"\n  Analysis time: {elapsed:.2f}s")
     # Output concise result otherwise
     else:
-        icon = "REAL ✓" if result.verdict == "REAL" else "RECAPTURED ✗"
+        icon = "REAL [OK]" if result.verdict == "REAL" else "RECAPTURED [FAIL]"
         print(f"  Result: [{icon}] (confidence: {result.confidence:.1%}, score: {result.final_score:.3f})")
         print(f"  Time: {elapsed:.2f}s")
     return True

@@ -42,7 +42,7 @@ def main():
             success = analyze_single(detector, img_path, args.verbose, args.json)
             if not success:
                 results["ERROR"] += 1
-            print("-" * 60)
+            print("-" * cli_config.SEPARATOR_LENGTH)
         print(cli_config.BATCH_SUMMARY_LINE.format(count=len(image_files)))
     else:
         if not os.path.isfile(args.input):
