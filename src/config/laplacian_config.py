@@ -11,6 +11,9 @@ class LaplacianConfig:
     blur_threshold: float = 100.0
     sharp_threshold: float = 500.0
     block_size: int = 64
+    sobel_ksize: int = 3
+    canny_lower_factor: float = 0.67
+    canny_upper_factor: float = 1.33
     # Score weights/thresholds
     variance_very_blurry: float = 50.0
     variance_blurry: float = 100.0

@@ -9,6 +9,10 @@ BANDPASS_HIGH = 0.45
 # Color artifact detection threshold
 COLOR_DIFF_THRESHOLD = 150.0
 
+# Moiré score adjustments
+GRAYSCALE_FACTOR = 0.5
+AUTOCORR_MASK_DIVISOR = 8
+
 # Moiré score thresholds
 MOIRE_INTENSITY_THRESHOLDS = [0.60, 0.50]
 MOIRE_INTENSITY_SCORES = [0.35, 0.20]

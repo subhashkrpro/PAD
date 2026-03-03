@@ -24,3 +24,6 @@ HEADER_LINES = [
     "  FFT | Moiré | Laplacian | Texture Analysis",
     "=" * 60,
 ]
+
+# UI separator length
+SEPARATOR_LENGTH = 60
