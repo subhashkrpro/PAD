@@ -33,14 +33,14 @@ def compute_gradient_kurtosis(gray: np.ndarray) -> float:
         Kurtosis value of the gradient magnitude distribution.
     """
     gray_f = gray.astype(np.float64)
-    gx = cv2.Sobel(gray_f, cv2.CV_64F, 1, 0, ksize=3)
-    gy = cv2.Sobel(gray_f, cv2.CV_64F, 0, 1, ksize=3)
+    gx = cv2.Sobel(gray_f, cv2.CV_64F, 1, 0, ksize=config.SOBEL_KSIZE)
+    gy = cv2.Sobel(gray_f, cv2.CV_64F, 0, 1, ksize=config.SOBEL_KSIZE)
     grad_mag = np.sqrt(gx ** 2 + gy ** 2).ravel()
     mean_g = np.mean(grad_mag)
     std_g = np.std(grad_mag)
-    if std_g < 1e-6:
+    if std_g < config.EPSILON:
         return 0.0
-    kurtosis = float(np.mean(((grad_mag - mean_g) / std_g) ** 4) - 3.0)
+    kurtosis = float(np.mean(((grad_mag - mean_g) / std_g) ** 4) - config.KURTOSIS_NORMALIZATION)
     return kurtosis
 
 def compute_spectral_slope(magnitude: np.ndarray, rows: int, cols: int) -> tuple[float, float]:
@@ -56,20 +56,20 @@ def compute_spectral_slope(magnitude: np.ndarray, rows: int, cols: int) -> tuple
     center_r, center_c = rows // 2, cols // 2
     max_r = min(center_r, center_c) - 1
     if max_r < config.SPECTRAL_SLOPE_MIN_RADIUS:
-        return -0.20, 0.0
+        return config.DEFAULT_SLOPE, 0.0
     Y, X = np.ogrid[:rows, :cols]
     dist = np.sqrt((X - center_c) ** 2 + (Y - center_r) ** 2)
     radial_avg = []
-    for r in range(2, max_r):
-        ring = (dist >= r - 0.5) & (dist < r + 0.5)
+    for r in range(config.RADIAL_START_RADIUS, max_r):
+        ring = (dist >= r - config.RING_WIDTH) & (dist < r + config.RING_WIDTH)
         vals = magnitude[ring]
         if len(vals) > 0:
             radial_avg.append(float(np.mean(vals)))
-    if len(radial_avg) < 10:
-        return -0.20, 0.0
+    if len(radial_avg) < config.MIN_RADIAL_POINTS:
+        return config.DEFAULT_SLOPE, 0.0
     radial = np.array(radial_avg)
     x = np.log(np.arange(1, len(radial) + 1).astype(np.float64))
-    y = np.log(radial + 1e-10)
+    y = np.log(radial + config.LOG_EPSILON)
     slope, intercept = np.polyfit(x, y, 1)
     y_fit = slope * x + intercept
     residual = float(np.std(y - y_fit))
