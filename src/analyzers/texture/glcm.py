@@ -10,7 +10,8 @@ def compute_glcm_features(gray: np.ndarray) -> tuple[float, float, float, float]
     Returns:
         Tuple containing contrast, homogeneity, energy, and correlation features.
     """
-    gray_quantized = (gray // GLCM_GRAY_DIV).astype(np.uint8)
+    gray_clipped = np.clip(gray, 0, 255).astype(np.float32)
+    gray_quantized = (gray_clipped // GLCM_GRAY_DIV).astype(np.uint8)
     glcm = graycomatrix(
         gray_quantized,
         distances=GLCM_DISTANCES,

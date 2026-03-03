@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
-from src.config.texture_config import GABOR_FREQUENCIES, GABOR_ORIENTATIONS
+import numpy as np
+from src.config.texture_config import GABOR_FREQUENCIES, GABOR_ORIENTATIONS, GABOR_KSIZE, GABOR_SIGMA, GABOR_GAMMA, GABOR_PSI
 
 def compute_gabor_features(gray: np.ndarray) -> float:
     """
@@ -16,12 +17,12 @@ def compute_gabor_features(gray: np.ndarray) -> float:
         orientation_means = []
         for theta in GABOR_ORIENTATIONS:
             kernel = cv2.getGaborKernel(
-                ksize=(31, 31),
-                sigma=4.0,
+                ksize=GABOR_KSIZE,
+                sigma=GABOR_SIGMA,
                 theta=theta,
                 lambd=1.0 / freq,
-                gamma=0.5,
-                psi=0,
+                gamma=GABOR_GAMMA,
+                psi=GABOR_PSI,
             )
             kernel /= kernel.sum() if kernel.sum() != 0 else 1
             response = cv2.filter2D(gray_f, cv2.CV_32F, kernel)
