@@ -1,6 +1,6 @@
 # Photo Authenticity Detector
 
-Real photo hai ya screen/mobile/poster ki photo? Ye tool detect karta hai! (Detects whether a photo is real or a recapture of a screen/poster).
+This tool detects whether a photo is a real live capture or a recaptured image from a screen, mobile, or poster.
 
 This project uses various signal processing and computer vision techniques to analyze an image and determine its authenticity. It identifies artifacts distinct to screens and prints that are not present in the natural world.
 
@@ -19,7 +19,9 @@ Ensure you have [uv](https://github.com/astral-sh/uv) installed, then run:
 
 ```bash
 # Project setup
-uv venv
+git clone https://github.com/subhashkrpro/PAD
+cd PAD
+
 uv sync
 
 # Run the interactive menu (Includes Live Camera, Gallery, and Analysis)
